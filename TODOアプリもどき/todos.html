@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOリスト</title>
+    <link rel="stylesheet" href="styletodo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TODOリスト</h1>
+        <input type="text" id="title" placeholder="タイトル" required>
+        <textarea id="content" placeholder="内容" required></textarea>
+        <select id="importance">
+            <option value="1">低</option>
+            <option value="2">中</option>
+            <option value="3">高</option>
+        </select>
+        <button id="saveButton">保存</button>
+        <div id="todoList"></div>
+    </div>
+    <script src="todos.js"></script>
+</body>
+</html>

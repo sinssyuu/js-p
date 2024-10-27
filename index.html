@@ -1,0 +1,104 @@
+<!-- <!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>歴史クイズ</h1>
+    <button id="click">クリック</button>
+    <p id="message"></p>
+    <script src="main.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>〇×ゲーム</title>
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>〇×ゲーム</h1>
+    <div id="board"></div>
+    <h2 id="message"></h2>
+
+    <script>
+        const boardElement = document.getElementById('board');
+        const messageElement = document.getElementById('message');
+        let currentPlayer = '〇';
+        const board = Array(3).fill(null).map(() => Array(3).fill(null));
+
+        function checkWinner() {
+            // 行、列、対角線をチェック
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+                    return board[i][0];
+                }
+                if (board[0][i] && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+                    return board[0][i];
+                }
+            }
+            if (board[0][0] && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+                return board[0][0];
+            }
+            if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+                return board[0][2];
+            }
+            return null;
+        }
+
+        function handleClick(row, col) {
+            if (board[row][col] || checkWinner()) {
+                return; // すでに埋まっている場合や勝者がいる場合は何もしない
+            }
+            board[row][col] = currentPlayer;
+            const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+            cell.textContent = currentPlayer;
+
+            const winner = checkWinner();
+            if (winner) {
+                messageElement.textContent = `${winner}の勝ち！`;
+            } else {
+                currentPlayer = currentPlayer === '〇' ? '×' : '〇';
+            }
+        }
+
+        function createBoard() {
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.setAttribute('data-row', row);
+                    cell.setAttribute('data-col', col);
+                    cell.addEventListener('click', () => handleClick(row, col));
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
